@@ -8,7 +8,7 @@ def conv3x3(in_planes, out_planes, stride=1):
     return adder.adder2d(in_planes, out_planes, kernel_size=3, stride=stride, padding=1, bias=False)
 
 @BACKBONES.register_module()
-class BasicBlock(nn.Module):
+class ABasicBlock(nn.Module):
     expansion=1
 
     def __init__(self, inplanes, planes, stride=1, downsample=None):
@@ -40,7 +40,7 @@ class BasicBlock(nn.Module):
         return out
 
 
-class ResNet(nn.Module):
+class AResNet(nn.Module):
 
     def __init__(self, block, layers, num_classes=10):
         super(ResNet, self).__init__()
