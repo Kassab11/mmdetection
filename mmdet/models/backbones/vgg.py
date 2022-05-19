@@ -1,19 +1,16 @@
 # Copyright (c) OpenMMLab. All rights reserved.
 import logging
-
+import adder
 import torch.nn as nn
 
 from .utils import constant_init, kaiming_init, normal_init
 
+def conv3x3(in_planes, out_planes, stride=1):
+    " 3x3 convolution with padding "
+    return adder.adder2d(in_planes, out_planes, kernel_size=3, stride=stride, padding=1, bias=False)
 
-def conv3x3(in_planes, out_planes, dilation=1):
-    """3x3 convolution with padding."""
-    return nn.Conv2d(
-        in_planes,
-        out_planes,
-        kernel_size=3,
-        padding=dilation,
-        dilation=dilation)
+
+
 
 
 def make_vgg_layer(inplanes,
