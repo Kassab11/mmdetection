@@ -2,7 +2,7 @@
 import warnings
 
 import torch.nn as nn
-from mmcv.cnn import VGG
+from vgg import VGG
 from mmcv.runner import BaseModule
 import adder
 from ..builder import BACKBONES
