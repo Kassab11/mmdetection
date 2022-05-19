@@ -4,10 +4,13 @@ import warnings
 import torch.nn as nn
 from mmcv.cnn import VGG
 from mmcv.runner import BaseModule
-
+import adder
 from ..builder import BACKBONES
 from ..necks import ssd_neck
 
+def conv3x3(in_planes, out_planes, stride=1):
+    " 3x3 convolution with padding "
+    return adder.adder2d(in_planes, out_planes, kernel_size=3, stride=stride, padding=1, bias=False)
 
 @BACKBONES.register_module()
 class SSDVGG(VGG, BaseModule):
@@ -69,11 +72,11 @@ class SSDVGG(VGG, BaseModule):
             nn.MaxPool2d(kernel_size=3, stride=1, padding=1))
         self.features.add_module(
             str(len(self.features)),
-            nn.Conv2d(512, 1024, kernel_size=3, padding=6, dilation=6))
+            conv3x3(512, 1024, 1))
         self.features.add_module(
             str(len(self.features)), nn.ReLU(inplace=True))
         self.features.add_module(
-            str(len(self.features)), nn.Conv2d(1024, 1024, kernel_size=1))
+            str(len(self.features)), conv3x3(1024, 1024, 1))
         self.features.add_module(
             str(len(self.features)), nn.ReLU(inplace=True))
         self.out_feature_indices = out_feature_indices
@@ -89,7 +92,7 @@ class SSDVGG(VGG, BaseModule):
             self.init_cfg = dict(type='Pretrained', checkpoint=pretrained)
         elif pretrained is None:
             self.init_cfg = [
-                dict(type='Kaiming', layer='Conv2d'),
+               
                 dict(type='Constant', val=1, layer='BatchNorm2d'),
                 dict(type='Normal', std=0.01, layer='Linear'),
             ]
