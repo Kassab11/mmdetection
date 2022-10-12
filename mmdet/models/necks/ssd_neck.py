@@ -1,7 +1,8 @@
 # Copyright (c) OpenMMLab. All rights reserved.
 import torch
 import torch.nn as nn
-from mmcv.cnn import ConvModule, DepthwiseSeparableConvModule
+from conv_module import ConvModule 
+from mmcv.cnn DepthwiseSeparableConvModule
 from mmcv.runner import BaseModule
 
 from ..builder import NECKS
