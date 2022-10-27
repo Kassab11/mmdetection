@@ -9,6 +9,10 @@ from DEPTHWISE import DepthwiseSeparableConvModule
 from mmcv.runner import force_fp32
 import adder
 
+def conv3x3(in_planes, out_planes, stride=1):
+    " 3x3 convolution with padding "
+    return adder.adder2d(in_planes, out_planes, kernel_size=3, stride=stride, padding=1, bias=False)
+
 from mmdet.core import (build_assigner, build_bbox_coder,
                         build_prior_generator, build_sampler, multi_apply)
 from ..builder import HEADS
@@ -181,13 +185,13 @@ class SSDHead(AnchorHead):
                         norm_cfg=self.norm_cfg,
                         act_cfg=self.act_cfg))
             cls_layers.append(
-                nn.Conv2d(
+                adder.adder2d(
                     in_channel,
                     num_base_priors * self.cls_out_channels,
                     kernel_size=1 if self.use_depthwise else 3,
                     padding=0 if self.use_depthwise else 1))
             reg_layers.append(
-                nn.Conv2d(
+                adder.adder2d(
                     in_channel,
                     num_base_priors * 4,
                     kernel_size=1 if self.use_depthwise else 3,
