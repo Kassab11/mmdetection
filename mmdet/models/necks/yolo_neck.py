@@ -3,7 +3,7 @@
 
 import torch
 import torch.nn.functional as F
-from mmcv.cnn import ConvModule
+from conv_module import ConvModule
 from mmcv.runner import BaseModule
 
 from ..builder import NECKS
